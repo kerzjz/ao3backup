@@ -45,6 +45,8 @@ jobs:
     - name: Scrape AO3
       run: |
         scrapy crawl ao3
+    - name: Run AO3 backup script
+      run: python work_spider.py
     - name: Create PR for new files
       uses:  peter-evans/create-pull-request@v6
       with:
