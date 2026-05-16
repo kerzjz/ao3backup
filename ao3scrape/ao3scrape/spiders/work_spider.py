@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
-from ao3scrape.items import WorkItem
+from items import WorkItem
 
 
 class WorkListSpider(CrawlSpider):
