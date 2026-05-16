@@ -8,36 +8,36 @@ from scrapy.linkextractors import LinkExtractor
 from ao3scrape.items import WorkItem
 
 
-def view_complete(value):
-    return f"{value}?view_adult=true&view_full_work=true"
-
-
 class WorkListSpider(CrawlSpider):
     name = "ao3"
     allowed_domains = ["archiveofourown.org"]
 
-    # ✅ 这是 AO3 公开作品库，会爬全站
+    # 从 AO3 最新作品列表开始爬全站
     start_urls = [
         "https://archiveofourown.org/works?utf8=✓&sort_by=updated"
     ]
 
     rules = [
-        # 自动抓所有 /works/12345 类型的链接
+        # 提取作品链接，自动拼接完整阅读参数
         Rule(
             LinkExtractor(
                 allow=r'^/works/\d+$',
                 deny=(r'bookmarks', r'comments', r'collections', r'tags', r'users')
             ),
-            process_value=view_complete,
             callback='parse_item',
             follow=False
         ),
-        # 自动翻页（下一页）
+        # 自动翻页
         Rule(
             LinkExtractor(allow=r'\?page=\d+', restrict_xpaths='//a[@rel="next"]'),
             follow=True
         )
     ]
+
+    # 给链接添加成人内容 + 全文阅读参数
+    def _process_request(self, request):
+        request.url += "?view_adult=true&view_full_work=true"
+        return request
 
     def strip_and_join(self, list_text, separator=" "):
         text = separator.join(list_text).strip()
