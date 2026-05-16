@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = "ao3scrape.spiders"
 #USER_AGENT = "ao3scrape (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 AO3_USER = os.environ.get('AO3_USER', 'thedeadparrot')
 
@@ -98,3 +98,6 @@ ITEM_PIPELINES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+DOWNLOAD_DELAY = 2
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
